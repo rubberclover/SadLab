@@ -9,7 +9,7 @@ const ssl = !!sasl
 // the environment variable KAFKA_BOOTSTRAP_SERVER
 const kafka = new Kafka({
    clientId: 'npm-slack-notifier',
-   brokers: [process.env.KAFKA_BOOTSTRAP_SERVER],
+   brokers: ["localhost:9092"],
    ssl,
    sasl
 })
