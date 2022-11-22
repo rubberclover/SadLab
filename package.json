@@ -1,0 +1,10 @@
+{
+  "dependencies": {
+    "curl": "^0.1.4",
+    "express-session": "^1.17.3",
+    "kafkajs": "^2.2.2",
+    "man": "^2.0.0",
+    "map": "^1.0.1",
+    "ngrok": "^4.3.3"
+  }
+}
