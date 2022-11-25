@@ -1,19 +1,19 @@
 const kafka = require('./kafka')
 const producer = kafka.producer()
 
-const produce = async () => {
+const sendMessage = async ({key, topic, version}) => {
     await producer.connect()
     try {
         const responses = await producer.send({
-           topic: process.env.TOPIC,
+           topic: topic,
            messages: [{
               // Name of the published package as key, to make sure that we process events in order
-              key: event.name,
+              key: key,
               // The message value is just bytes to Kafka, so we need to serialize our JavaScript
               // object to a JSON string. Other serialization methods like Avro are available.
               value: JSON.stringify({
-                 package: event.name,
-                 version: event.version
+                 package: key,
+                 version: version
               })
            }]
         })
@@ -22,3 +22,5 @@ const produce = async () => {
         console.error('Error publishing message', error)
      }
 }
+
+module.exports.sendMessage = sendMessage
