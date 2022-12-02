@@ -1,5 +1,5 @@
 const express = require('express')
-const { writeUserDataToKafka, readMessages } = require('./user.kafka')
+const { readMessages } = require('./user.kafka')
 const app = express()
 const port = 3000
 
