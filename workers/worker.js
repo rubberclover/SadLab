@@ -1,9 +1,12 @@
 const kafka  = require('../kafka.js')  
 const groupId = 'resolver-Work'
-const Works  = require('../controller/test-controller')
 const uuid = require('uuid');
 const producer = kafka.producer()
 const consumer = kafka.consumer({ groupId })
+var fs = require('fs');
+const { finished } = require('stream');
+const shell = require('shelljs')
+const path = '../repos'
 
 const writeUserDataToKafka = async (payload) => {
     await producer.connect()
@@ -40,29 +43,33 @@ const ConsumeMessage = async () => {
              value: message.value.toString()
           })
           var obj = JSON.parse(message.value.toString());
-          var calculateResults = 2 + (parseInt(obj.message.order))
+          shell.cd(path)
+          shell.exec('git clone ' + obj.message.link)
           var messageToSend = {
-            id: uuid.v4(),
-            order: calculateResults,
+            id: obj.message.id,
+            order: obj.message.order,
+            link: obj.message.link,
             status: "WorkDone",
         }
-        writeUserDataToKafka({messageToSend})
+        
         CheckArray(messageToSend)
+        writeUserDataToKafka({messageToSend})
        }
     })
 }
 
 function CheckArray(message) {
-   console.log(Works)
+   let data = fs.readFileSync('../Works.js')
+   let Works = JSON.parse(data)
    if(Works.filter(it => it.id == message.id)){
-      var index = Works.findIndex(function(item, i){
-         return item.id == message.id
-      })
+      var index = Works.findIndex(item=> item.id === message.id)
       Works[index] = message
    }
    else {
       Works.push(message)
    }
+   data = JSON.stringify(Works, null, 2)
+   fs.writeFileSync('../Works.js',data, finished)
 }
 
 ConsumeMessage()
