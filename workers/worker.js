@@ -7,6 +7,7 @@ var fs = require('fs');
 const { finished } = require('stream');
 const shell = require('shelljs')
 const path = '../repos'
+const { exec } = require("child_process");
 
 const writeUserDataToKafka = async (payload) => {
     await producer.connect()
@@ -49,9 +50,12 @@ const ConsumeMessage = async () => {
             id: obj.message.id,
             order: obj.message.order,
             link: obj.message.link,
-            status: "WorkDone",
+            params: obj.message.params,
+            dependencies: obj.message.dependencies,
+            resultName: obj.message.resultFileName,
+            status: "JobDone",
         }
-        
+        DoJobs(obj.message)
         CheckArray(messageToSend)
         writeUserDataToKafka({messageToSend})
        }
@@ -72,4 +76,51 @@ function CheckArray(message) {
    fs.writeFileSync('../Works.js',data, finished)
 }
 
+function DoJobs(QueMessage){
+   //Calculate time elapse
+   var begin=Date.now();
+   if(QueMessage.dependencies != ""){
+   exec(QueMessage.dependencies,(error, stdout, stderr) => {
+      if (error) {
+          console.log(`error: ${error.message}`);
+          return;
+      }
+      if (stderr) {
+          console.log(`stderr: ${stderr}`);
+          return;
+      }
+      console.log(`stdout: ${stdout}`);
+  })
+  } 
+  if(QueMessage.params != ""){
+   exec(QueMessage.params,{
+      cwd: path + '/'
+    },(error, stdout, stderr) => {
+      if (error) {
+          data = JSON.stringify(`error: ${error.message}`, null, 2)
+          fs.writeFileSync('../doneJobs/' + QueMessage.resultFileName + '.json' ,data, finished)
+          return;
+      }
+      if (stderr) {
+          console.log(`stderr: ${stderr}`);
+          return;
+      }
+      var end= Date.now();
+      var timeTook=(end-begin)/1000+"secs";
+      var finishedJob = {
+         id: QueMessage.id,
+         link: QueMessage.link,
+         status: "JobFinished",
+         time: timeTook,
+         result: stdout
+     }
+     data = JSON.stringify(finishedJob, null, 2)
+     fs.writeFileSync('../doneJobs/' + QueMessage.resultFileName + '.json' ,data, finished)
+     return;
+  })
+  } 
+}
+
 ConsumeMessage()
+
+module.exports.DoJobs = DoJobs

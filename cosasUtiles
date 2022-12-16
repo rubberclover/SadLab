@@ -1,0 +1,8 @@
+curl -L -X POST 'http://localhost:8080/realms/sadProject/protocol/openid-connect/token' \
+  -H 'Content-Type: application/x-www-form-urlencoded' \
+  --data-urlencode 'client_id=service-app' \
+  --data-urlencode 'grant_type=password' \
+  --data-urlencode 'client_secret=ArKEqt2TXJ9l112nO66IXVqMNt4Ttupl' \
+  --data-urlencode 'scope=openid' \
+  --data-urlencode 'username=testuser' \
+  --data-urlencode 'password=testUser'

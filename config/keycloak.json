@@ -1,0 +1,12 @@
+{
+  "realm": "sadProject",
+  "auth-server-url": "http://localhost:8080/",
+  "ssl-required": "external",
+  "resource": "service-app",
+  "verify-token-audience": true,
+  "credentials": {
+    "secret": "ArKEqt2TXJ9l112nO66IXVqMNt4Ttupl"
+  },
+  "confidential-port": 0,
+  "policy-enforcer": {}
+}

@@ -1,0 +1,7 @@
+{
+  "id": "c89ddb0a-ee2b-414b-8063-558445c3b4c6",
+  "link": "https://github.com/rubberclover/RandomCountry.git",
+  "status": "JobFinished",
+  "time": "0.463secs",
+  "result": "{'name': 'Spain', 'code': 'ES', 'capital': 'Madrid', 'region': 'EU', 'currency': {'code': 'EUR', 'name': 'Euro', 'symbol': '�'}, 'language': {'code': 'es', 'name': 'Spanish'}, 'flag': 'https://restcountries.eu/data/esp.svg'}\r\n"
+}
