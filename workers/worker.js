@@ -52,10 +52,13 @@ const ConsumeMessage = async () => {
             link: obj.message.link,
             params: obj.message.params,
             dependencies: obj.message.dependencies,
-            resultName: obj.message.resultFileName,
+            resultFileName: obj.message.resultFileName,
+            nick: obj.message.nick,
+            email: obj.message.email,
+            name: obj.message.name,
             status: "JobDone",
         }
-        DoJobs(obj.message)
+        await DoJobs(obj.message)
         CheckArray(messageToSend)
         writeUserDataToKafka({messageToSend})
        }
@@ -76,7 +79,7 @@ function CheckArray(message) {
    fs.writeFileSync('../Works.js',data, finished)
 }
 
-function DoJobs(QueMessage){
+async function DoJobs(QueMessage){
    //Calculate time elapse
    var begin=Date.now();
    if(QueMessage.dependencies != ""){
@@ -110,6 +113,9 @@ function DoJobs(QueMessage){
       var finishedJob = {
          id: QueMessage.id,
          link: QueMessage.link,
+         nick: QueMessage.nick,
+         email: QueMessage.email,
+         name: QueMessage.name,
          status: "JobFinished",
          time: timeTook,
          result: stdout

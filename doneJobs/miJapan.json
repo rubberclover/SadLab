@@ -1,0 +1,10 @@
+{
+  "id": "b6a6d8ee-6ea4-4cab-91d8-e3e15f4f1d63",
+  "link": "https://github.com/rubberclover/RandomCountry.git",
+  "nick": "testuser",
+  "email": "testuser45@gmail.com",
+  "name": "Gary Stu",
+  "status": "JobFinished",
+  "time": "0.264secs",
+  "result": "{'name': 'Japan', 'code': 'JP', 'capital': 'Tokyo', 'region': 'AS', 'currency': {'code': 'JPY', 'name': 'Japanese yen', 'symbol': '�'}, 'language': {'code': 'ja', 'name': 'Japanese'}, 'flag': 'https://restcountries.eu/data/jpn.svg'}\r\n"
+}

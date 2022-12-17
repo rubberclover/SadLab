@@ -96,3 +96,293 @@ Database is already closed (to disable automatic closing at VM shutdown, add ";D
 	at io.quarkus.runtime.Application.stop(Application.java:208)
 	at io.quarkus.runtime.Application.stop(Application.java:155)
 	at io.quarkus.runtime.ApplicationLifecycleManager$ShutdownHookThread.run(ApplicationLifecycleManager.java:431)
+2022-12-17 18:18:18 database: flush
+org.h2.message.DbException: Error General : "org.h2.mvstore.MVStoreException: Could not open file D:/uni/SAD/SadLab/keycloak-20.0.1/data/h2/keycloakdb.mv.db [2.1.214/1]"
+General error: "org.h2.mvstore.MVStoreException: Could not open file D:/uni/SAD/SadLab/keycloak-20.0.1/data/h2/keycloakdb.mv.db [2.1.214/1]" [50000-214]
+	at org.h2.message.DbException.get(DbException.java:212)
+	at org.h2.message.DbException.convert(DbException.java:395)
+	at org.h2.mvstore.db.Store.lambda$new$0(Store.java:125)
+	at org.h2.mvstore.MVStore.handleException(MVStore.java:3318)
+	at org.h2.mvstore.MVStore.panic(MVStore.java:593)
+	at org.h2.mvstore.MVStore.<init>(MVStore.java:469)
+	at org.h2.mvstore.MVStore$Builder.open(MVStore.java:4082)
+	at org.h2.mvstore.db.Store.<init>(Store.java:136)
+	at org.h2.engine.Database.<init>(Database.java:324)
+	at org.h2.engine.Engine.openSession(Engine.java:92)
+	at org.h2.engine.Engine.openSession(Engine.java:222)
+	at org.h2.engine.Engine.createSession(Engine.java:201)
+	at org.h2.engine.SessionRemote.connectEmbeddedOrServer(SessionRemote.java:338)
+	at org.h2.jdbc.JdbcConnection.<init>(JdbcConnection.java:122)
+	at org.h2.jdbcx.JdbcDataSource.getXAConnection(JdbcDataSource.java:322)
+	at io.agroal.pool.ConnectionFactory.createConnection(ConnectionFactory.java:232)
+	at io.agroal.pool.ConnectionPool$CreateConnectionTask.call(ConnectionPool.java:535)
+	at io.agroal.pool.ConnectionPool$CreateConnectionTask.call(ConnectionPool.java:516)
+	at java.base/java.util.concurrent.FutureTask.run(FutureTask.java:317)
+	at io.agroal.pool.util.PriorityScheduledExecutor.beforeExecute(PriorityScheduledExecutor.java:75)
+	at java.base/java.util.concurrent.ThreadPoolExecutor.runWorker(ThreadPoolExecutor.java:1142)
+	at java.base/java.util.concurrent.ThreadPoolExecutor$Worker.run(ThreadPoolExecutor.java:642)
+	at java.base/java.lang.Thread.run(Thread.java:1589)
+Caused by: org.h2.jdbc.JdbcSQLNonTransientException: Error General : "org.h2.mvstore.MVStoreException: Could not open file D:/uni/SAD/SadLab/keycloak-20.0.1/data/h2/keycloakdb.mv.db [2.1.214/1]"
+General error: "org.h2.mvstore.MVStoreException: Could not open file D:/uni/SAD/SadLab/keycloak-20.0.1/data/h2/keycloakdb.mv.db [2.1.214/1]" [50000-214]
+	at org.h2.message.DbException.getJdbcSQLException(DbException.java:554)
+	at org.h2.message.DbException.getJdbcSQLException(DbException.java:477)
+	... 23 more
+Caused by: org.h2.mvstore.MVStoreException: Could not open file D:/uni/SAD/SadLab/keycloak-20.0.1/data/h2/keycloakdb.mv.db [2.1.214/1]
+	at org.h2.mvstore.DataUtils.newMVStoreException(DataUtils.java:1004)
+	at org.h2.mvstore.FileStore.open(FileStore.java:185)
+	at org.h2.mvstore.FileStore.open(FileStore.java:128)
+	at org.h2.mvstore.MVStore.<init>(MVStore.java:452)
+	... 17 more
+Caused by: java.nio.channels.ClosedByInterruptException
+	at java.base/java.nio.channels.spi.AbstractInterruptibleChannel.end(AbstractInterruptibleChannel.java:199)
+	at java.base/sun.nio.ch.FileChannelImpl.endBlocking(FileChannelImpl.java:177)
+	at java.base/sun.nio.ch.FileChannelImpl.size(FileChannelImpl.java:436)
+	at org.h2.mvstore.FileStore.open(FileStore.java:182)
+	... 19 more
+2022-12-17 18:18:18 database: opening D:/uni/SAD/SadLab/keycloak-20.0.1/data/h2/keycloakdb
+org.h2.message.DbException: IO Exception: "D:/uni/SAD/SadLab/keycloak-20.0.1/data/h2/keycloakdb.mv.db"
+IO Exception: "D:/uni/SAD/SadLab/keycloak-20.0.1/data/h2/keycloakdb.mv.db" [90028-214]
+	at org.h2.message.DbException.get(DbException.java:212)
+	at org.h2.mvstore.db.Store.convertMVStoreException(Store.java:171)
+	at org.h2.mvstore.db.Store.<init>(Store.java:145)
+	at org.h2.engine.Database.<init>(Database.java:324)
+	at org.h2.engine.Engine.openSession(Engine.java:92)
+	at org.h2.engine.Engine.openSession(Engine.java:222)
+	at org.h2.engine.Engine.createSession(Engine.java:201)
+	at org.h2.engine.SessionRemote.connectEmbeddedOrServer(SessionRemote.java:338)
+	at org.h2.jdbc.JdbcConnection.<init>(JdbcConnection.java:122)
+	at org.h2.jdbcx.JdbcDataSource.getXAConnection(JdbcDataSource.java:322)
+	at io.agroal.pool.ConnectionFactory.createConnection(ConnectionFactory.java:232)
+	at io.agroal.pool.ConnectionPool$CreateConnectionTask.call(ConnectionPool.java:535)
+	at io.agroal.pool.ConnectionPool$CreateConnectionTask.call(ConnectionPool.java:516)
+	at java.base/java.util.concurrent.FutureTask.run(FutureTask.java:317)
+	at io.agroal.pool.util.PriorityScheduledExecutor.beforeExecute(PriorityScheduledExecutor.java:75)
+	at java.base/java.util.concurrent.ThreadPoolExecutor.runWorker(ThreadPoolExecutor.java:1142)
+	at java.base/java.util.concurrent.ThreadPoolExecutor$Worker.run(ThreadPoolExecutor.java:642)
+	at java.base/java.lang.Thread.run(Thread.java:1589)
+Caused by: org.h2.jdbc.JdbcSQLNonTransientException: IO Exception: "D:/uni/SAD/SadLab/keycloak-20.0.1/data/h2/keycloakdb.mv.db"
+IO Exception: "D:/uni/SAD/SadLab/keycloak-20.0.1/data/h2/keycloakdb.mv.db" [90028-214]
+	at org.h2.message.DbException.getJdbcSQLException(DbException.java:554)
+	at org.h2.message.DbException.getJdbcSQLException(DbException.java:477)
+	... 18 more
+Caused by: org.h2.mvstore.MVStoreException: Could not open file D:/uni/SAD/SadLab/keycloak-20.0.1/data/h2/keycloakdb.mv.db [2.1.214/1]
+	at org.h2.mvstore.DataUtils.newMVStoreException(DataUtils.java:1004)
+	at org.h2.mvstore.FileStore.open(FileStore.java:185)
+	at org.h2.mvstore.FileStore.open(FileStore.java:128)
+	at org.h2.mvstore.MVStore.<init>(MVStore.java:452)
+	at org.h2.mvstore.MVStore$Builder.open(MVStore.java:4082)
+	at org.h2.mvstore.db.Store.<init>(Store.java:136)
+	... 15 more
+Caused by: java.nio.channels.ClosedByInterruptException
+	at java.base/java.nio.channels.spi.AbstractInterruptibleChannel.end(AbstractInterruptibleChannel.java:199)
+	at java.base/sun.nio.ch.FileChannelImpl.endBlocking(FileChannelImpl.java:177)
+	at java.base/sun.nio.ch.FileChannelImpl.size(FileChannelImpl.java:436)
+	at org.h2.mvstore.FileStore.open(FileStore.java:182)
+	... 19 more
+2022-12-17 18:18:32 database: flush
+org.h2.message.DbException: Error General : "org.h2.mvstore.MVStoreException: File is corrupted - unable to recover a valid set of chunks [2.1.214/6]"
+General error: "org.h2.mvstore.MVStoreException: File is corrupted - unable to recover a valid set of chunks [2.1.214/6]" [50000-214]
+	at org.h2.message.DbException.get(DbException.java:212)
+	at org.h2.message.DbException.convert(DbException.java:395)
+	at org.h2.mvstore.db.Store.lambda$new$0(Store.java:125)
+	at org.h2.mvstore.MVStore.handleException(MVStore.java:3318)
+	at org.h2.mvstore.MVStore.panic(MVStore.java:593)
+	at org.h2.mvstore.MVStore.<init>(MVStore.java:469)
+	at org.h2.mvstore.MVStore$Builder.open(MVStore.java:4082)
+	at org.h2.mvstore.db.Store.<init>(Store.java:136)
+	at org.h2.engine.Database.<init>(Database.java:324)
+	at org.h2.engine.Engine.openSession(Engine.java:92)
+	at org.h2.engine.Engine.openSession(Engine.java:222)
+	at org.h2.engine.Engine.createSession(Engine.java:201)
+	at org.h2.engine.SessionRemote.connectEmbeddedOrServer(SessionRemote.java:338)
+	at org.h2.jdbc.JdbcConnection.<init>(JdbcConnection.java:122)
+	at org.h2.jdbcx.JdbcDataSource.getXAConnection(JdbcDataSource.java:322)
+	at io.agroal.pool.ConnectionFactory.createConnection(ConnectionFactory.java:232)
+	at io.agroal.pool.ConnectionPool$CreateConnectionTask.call(ConnectionPool.java:535)
+	at io.agroal.pool.ConnectionPool$CreateConnectionTask.call(ConnectionPool.java:516)
+	at java.base/java.util.concurrent.FutureTask.run(FutureTask.java:317)
+	at io.agroal.pool.util.PriorityScheduledExecutor.beforeExecute(PriorityScheduledExecutor.java:75)
+	at java.base/java.util.concurrent.ThreadPoolExecutor.runWorker(ThreadPoolExecutor.java:1142)
+	at java.base/java.util.concurrent.ThreadPoolExecutor$Worker.run(ThreadPoolExecutor.java:642)
+	at java.base/java.lang.Thread.run(Thread.java:1589)
+Caused by: org.h2.jdbc.JdbcSQLNonTransientException: Error General : "org.h2.mvstore.MVStoreException: File is corrupted - unable to recover a valid set of chunks [2.1.214/6]"
+General error: "org.h2.mvstore.MVStoreException: File is corrupted - unable to recover a valid set of chunks [2.1.214/6]" [50000-214]
+	at org.h2.message.DbException.getJdbcSQLException(DbException.java:554)
+	at org.h2.message.DbException.getJdbcSQLException(DbException.java:477)
+	... 23 more
+Caused by: org.h2.mvstore.MVStoreException: File is corrupted - unable to recover a valid set of chunks [2.1.214/6]
+	at org.h2.mvstore.DataUtils.newMVStoreException(DataUtils.java:1004)
+	at org.h2.mvstore.MVStore.readStoreHeader(MVStore.java:1038)
+	at org.h2.mvstore.MVStore.<init>(MVStore.java:463)
+	... 17 more
+2022-12-17 18:18:32 database: opening D:/uni/SAD/SadLab/keycloak-20.0.1/data/h2/keycloakdb
+org.h2.message.DbException: Archivo corrupto mientras se leía el registro: "D:/uni/SAD/SadLab/keycloak-20.0.1/data/h2/keycloakdb.mv.db". Solución Posible: use la herramienta de recuperación (recovery tool)
+File corrupted while reading record: "D:/uni/SAD/SadLab/keycloak-20.0.1/data/h2/keycloakdb.mv.db". Possible solution: use the recovery tool [90030-214]
+	at org.h2.message.DbException.get(DbException.java:212)
+	at org.h2.mvstore.db.Store.convertMVStoreException(Store.java:166)
+	at org.h2.mvstore.db.Store.<init>(Store.java:145)
+	at org.h2.engine.Database.<init>(Database.java:324)
+	at org.h2.engine.Engine.openSession(Engine.java:92)
+	at org.h2.engine.Engine.openSession(Engine.java:222)
+	at org.h2.engine.Engine.createSession(Engine.java:201)
+	at org.h2.engine.SessionRemote.connectEmbeddedOrServer(SessionRemote.java:338)
+	at org.h2.jdbc.JdbcConnection.<init>(JdbcConnection.java:122)
+	at org.h2.jdbcx.JdbcDataSource.getXAConnection(JdbcDataSource.java:322)
+	at io.agroal.pool.ConnectionFactory.createConnection(ConnectionFactory.java:232)
+	at io.agroal.pool.ConnectionPool$CreateConnectionTask.call(ConnectionPool.java:535)
+	at io.agroal.pool.ConnectionPool$CreateConnectionTask.call(ConnectionPool.java:516)
+	at java.base/java.util.concurrent.FutureTask.run(FutureTask.java:317)
+	at io.agroal.pool.util.PriorityScheduledExecutor.beforeExecute(PriorityScheduledExecutor.java:75)
+	at java.base/java.util.concurrent.ThreadPoolExecutor.runWorker(ThreadPoolExecutor.java:1142)
+	at java.base/java.util.concurrent.ThreadPoolExecutor$Worker.run(ThreadPoolExecutor.java:642)
+	at java.base/java.lang.Thread.run(Thread.java:1589)
+Caused by: org.h2.jdbc.JdbcSQLNonTransientConnectionException: Archivo corrupto mientras se leía el registro: "D:/uni/SAD/SadLab/keycloak-20.0.1/data/h2/keycloakdb.mv.db". Solución Posible: use la herramienta de recuperación (recovery tool)
+File corrupted while reading record: "D:/uni/SAD/SadLab/keycloak-20.0.1/data/h2/keycloakdb.mv.db". Possible solution: use the recovery tool [90030-214]
+	at org.h2.message.DbException.getJdbcSQLException(DbException.java:678)
+	at org.h2.message.DbException.getJdbcSQLException(DbException.java:477)
+	... 18 more
+Caused by: org.h2.mvstore.MVStoreException: File is corrupted - unable to recover a valid set of chunks [2.1.214/6]
+	at org.h2.mvstore.DataUtils.newMVStoreException(DataUtils.java:1004)
+	at org.h2.mvstore.MVStore.readStoreHeader(MVStore.java:1038)
+	at org.h2.mvstore.MVStore.<init>(MVStore.java:463)
+	at org.h2.mvstore.MVStore$Builder.open(MVStore.java:4082)
+	at org.h2.mvstore.db.Store.<init>(Store.java:136)
+	... 15 more
+2022-12-17 18:18:50 database: flush
+org.h2.message.DbException: Error General : "org.h2.mvstore.MVStoreException: File is corrupted - unable to recover a valid set of chunks [2.1.214/6]"
+General error: "org.h2.mvstore.MVStoreException: File is corrupted - unable to recover a valid set of chunks [2.1.214/6]" [50000-214]
+	at org.h2.message.DbException.get(DbException.java:212)
+	at org.h2.message.DbException.convert(DbException.java:395)
+	at org.h2.mvstore.db.Store.lambda$new$0(Store.java:125)
+	at org.h2.mvstore.MVStore.handleException(MVStore.java:3318)
+	at org.h2.mvstore.MVStore.panic(MVStore.java:593)
+	at org.h2.mvstore.MVStore.<init>(MVStore.java:469)
+	at org.h2.mvstore.MVStore$Builder.open(MVStore.java:4082)
+	at org.h2.mvstore.db.Store.<init>(Store.java:136)
+	at org.h2.engine.Database.<init>(Database.java:324)
+	at org.h2.engine.Engine.openSession(Engine.java:92)
+	at org.h2.engine.Engine.openSession(Engine.java:222)
+	at org.h2.engine.Engine.createSession(Engine.java:201)
+	at org.h2.engine.SessionRemote.connectEmbeddedOrServer(SessionRemote.java:338)
+	at org.h2.jdbc.JdbcConnection.<init>(JdbcConnection.java:122)
+	at org.h2.jdbcx.JdbcDataSource.getXAConnection(JdbcDataSource.java:322)
+	at io.agroal.pool.ConnectionFactory.createConnection(ConnectionFactory.java:232)
+	at io.agroal.pool.ConnectionPool$CreateConnectionTask.call(ConnectionPool.java:535)
+	at io.agroal.pool.ConnectionPool$CreateConnectionTask.call(ConnectionPool.java:516)
+	at java.base/java.util.concurrent.FutureTask.run(FutureTask.java:317)
+	at io.agroal.pool.util.PriorityScheduledExecutor.beforeExecute(PriorityScheduledExecutor.java:75)
+	at java.base/java.util.concurrent.ThreadPoolExecutor.runWorker(ThreadPoolExecutor.java:1142)
+	at java.base/java.util.concurrent.ThreadPoolExecutor$Worker.run(ThreadPoolExecutor.java:642)
+	at java.base/java.lang.Thread.run(Thread.java:1589)
+Caused by: org.h2.jdbc.JdbcSQLNonTransientException: Error General : "org.h2.mvstore.MVStoreException: File is corrupted - unable to recover a valid set of chunks [2.1.214/6]"
+General error: "org.h2.mvstore.MVStoreException: File is corrupted - unable to recover a valid set of chunks [2.1.214/6]" [50000-214]
+	at org.h2.message.DbException.getJdbcSQLException(DbException.java:554)
+	at org.h2.message.DbException.getJdbcSQLException(DbException.java:477)
+	... 23 more
+Caused by: org.h2.mvstore.MVStoreException: File is corrupted - unable to recover a valid set of chunks [2.1.214/6]
+	at org.h2.mvstore.DataUtils.newMVStoreException(DataUtils.java:1004)
+	at org.h2.mvstore.MVStore.readStoreHeader(MVStore.java:1038)
+	at org.h2.mvstore.MVStore.<init>(MVStore.java:463)
+	... 17 more
+2022-12-17 18:18:50 database: opening D:/uni/SAD/SadLab/keycloak-20.0.1/data/h2/keycloakdb
+org.h2.message.DbException: Archivo corrupto mientras se leía el registro: "D:/uni/SAD/SadLab/keycloak-20.0.1/data/h2/keycloakdb.mv.db". Solución Posible: use la herramienta de recuperación (recovery tool)
+File corrupted while reading record: "D:/uni/SAD/SadLab/keycloak-20.0.1/data/h2/keycloakdb.mv.db". Possible solution: use the recovery tool [90030-214]
+	at org.h2.message.DbException.get(DbException.java:212)
+	at org.h2.mvstore.db.Store.convertMVStoreException(Store.java:166)
+	at org.h2.mvstore.db.Store.<init>(Store.java:145)
+	at org.h2.engine.Database.<init>(Database.java:324)
+	at org.h2.engine.Engine.openSession(Engine.java:92)
+	at org.h2.engine.Engine.openSession(Engine.java:222)
+	at org.h2.engine.Engine.createSession(Engine.java:201)
+	at org.h2.engine.SessionRemote.connectEmbeddedOrServer(SessionRemote.java:338)
+	at org.h2.jdbc.JdbcConnection.<init>(JdbcConnection.java:122)
+	at org.h2.jdbcx.JdbcDataSource.getXAConnection(JdbcDataSource.java:322)
+	at io.agroal.pool.ConnectionFactory.createConnection(ConnectionFactory.java:232)
+	at io.agroal.pool.ConnectionPool$CreateConnectionTask.call(ConnectionPool.java:535)
+	at io.agroal.pool.ConnectionPool$CreateConnectionTask.call(ConnectionPool.java:516)
+	at java.base/java.util.concurrent.FutureTask.run(FutureTask.java:317)
+	at io.agroal.pool.util.PriorityScheduledExecutor.beforeExecute(PriorityScheduledExecutor.java:75)
+	at java.base/java.util.concurrent.ThreadPoolExecutor.runWorker(ThreadPoolExecutor.java:1142)
+	at java.base/java.util.concurrent.ThreadPoolExecutor$Worker.run(ThreadPoolExecutor.java:642)
+	at java.base/java.lang.Thread.run(Thread.java:1589)
+Caused by: org.h2.jdbc.JdbcSQLNonTransientConnectionException: Archivo corrupto mientras se leía el registro: "D:/uni/SAD/SadLab/keycloak-20.0.1/data/h2/keycloakdb.mv.db". Solución Posible: use la herramienta de recuperación (recovery tool)
+File corrupted while reading record: "D:/uni/SAD/SadLab/keycloak-20.0.1/data/h2/keycloakdb.mv.db". Possible solution: use the recovery tool [90030-214]
+	at org.h2.message.DbException.getJdbcSQLException(DbException.java:678)
+	at org.h2.message.DbException.getJdbcSQLException(DbException.java:477)
+	... 18 more
+Caused by: org.h2.mvstore.MVStoreException: File is corrupted - unable to recover a valid set of chunks [2.1.214/6]
+	at org.h2.mvstore.DataUtils.newMVStoreException(DataUtils.java:1004)
+	at org.h2.mvstore.MVStore.readStoreHeader(MVStore.java:1038)
+	at org.h2.mvstore.MVStore.<init>(MVStore.java:463)
+	at org.h2.mvstore.MVStore$Builder.open(MVStore.java:4082)
+	at org.h2.mvstore.db.Store.<init>(Store.java:136)
+	... 15 more
+2022-12-17 18:49:02 database: flush
+org.h2.message.DbException: Error General : "org.h2.mvstore.MVStoreException: File is corrupted - unable to recover a valid set of chunks [2.1.214/6]"
+General error: "org.h2.mvstore.MVStoreException: File is corrupted - unable to recover a valid set of chunks [2.1.214/6]" [50000-214]
+	at org.h2.message.DbException.get(DbException.java:212)
+	at org.h2.message.DbException.convert(DbException.java:395)
+	at org.h2.mvstore.db.Store.lambda$new$0(Store.java:125)
+	at org.h2.mvstore.MVStore.handleException(MVStore.java:3318)
+	at org.h2.mvstore.MVStore.panic(MVStore.java:593)
+	at org.h2.mvstore.MVStore.<init>(MVStore.java:469)
+	at org.h2.mvstore.MVStore$Builder.open(MVStore.java:4082)
+	at org.h2.mvstore.db.Store.<init>(Store.java:136)
+	at org.h2.engine.Database.<init>(Database.java:324)
+	at org.h2.engine.Engine.openSession(Engine.java:92)
+	at org.h2.engine.Engine.openSession(Engine.java:222)
+	at org.h2.engine.Engine.createSession(Engine.java:201)
+	at org.h2.engine.SessionRemote.connectEmbeddedOrServer(SessionRemote.java:338)
+	at org.h2.jdbc.JdbcConnection.<init>(JdbcConnection.java:122)
+	at org.h2.jdbcx.JdbcDataSource.getXAConnection(JdbcDataSource.java:322)
+	at io.agroal.pool.ConnectionFactory.createConnection(ConnectionFactory.java:232)
+	at io.agroal.pool.ConnectionPool$CreateConnectionTask.call(ConnectionPool.java:535)
+	at io.agroal.pool.ConnectionPool$CreateConnectionTask.call(ConnectionPool.java:516)
+	at java.base/java.util.concurrent.FutureTask.run(FutureTask.java:317)
+	at io.agroal.pool.util.PriorityScheduledExecutor.beforeExecute(PriorityScheduledExecutor.java:75)
+	at java.base/java.util.concurrent.ThreadPoolExecutor.runWorker(ThreadPoolExecutor.java:1142)
+	at java.base/java.util.concurrent.ThreadPoolExecutor$Worker.run(ThreadPoolExecutor.java:642)
+	at java.base/java.lang.Thread.run(Thread.java:1589)
+Caused by: org.h2.jdbc.JdbcSQLNonTransientException: Error General : "org.h2.mvstore.MVStoreException: File is corrupted - unable to recover a valid set of chunks [2.1.214/6]"
+General error: "org.h2.mvstore.MVStoreException: File is corrupted - unable to recover a valid set of chunks [2.1.214/6]" [50000-214]
+	at org.h2.message.DbException.getJdbcSQLException(DbException.java:554)
+	at org.h2.message.DbException.getJdbcSQLException(DbException.java:477)
+	... 23 more
+Caused by: org.h2.mvstore.MVStoreException: File is corrupted - unable to recover a valid set of chunks [2.1.214/6]
+	at org.h2.mvstore.DataUtils.newMVStoreException(DataUtils.java:1004)
+	at org.h2.mvstore.MVStore.readStoreHeader(MVStore.java:1038)
+	at org.h2.mvstore.MVStore.<init>(MVStore.java:463)
+	... 17 more
+2022-12-17 18:49:03 database: opening D:/uni/SAD/SadLab/keycloak-20.0.1/data/h2/keycloakdb
+org.h2.message.DbException: Archivo corrupto mientras se leía el registro: "D:/uni/SAD/SadLab/keycloak-20.0.1/data/h2/keycloakdb.mv.db". Solución Posible: use la herramienta de recuperación (recovery tool)
+File corrupted while reading record: "D:/uni/SAD/SadLab/keycloak-20.0.1/data/h2/keycloakdb.mv.db". Possible solution: use the recovery tool [90030-214]
+	at org.h2.message.DbException.get(DbException.java:212)
+	at org.h2.mvstore.db.Store.convertMVStoreException(Store.java:166)
+	at org.h2.mvstore.db.Store.<init>(Store.java:145)
+	at org.h2.engine.Database.<init>(Database.java:324)
+	at org.h2.engine.Engine.openSession(Engine.java:92)
+	at org.h2.engine.Engine.openSession(Engine.java:222)
+	at org.h2.engine.Engine.createSession(Engine.java:201)
+	at org.h2.engine.SessionRemote.connectEmbeddedOrServer(SessionRemote.java:338)
+	at org.h2.jdbc.JdbcConnection.<init>(JdbcConnection.java:122)
+	at org.h2.jdbcx.JdbcDataSource.getXAConnection(JdbcDataSource.java:322)
+	at io.agroal.pool.ConnectionFactory.createConnection(ConnectionFactory.java:232)
+	at io.agroal.pool.ConnectionPool$CreateConnectionTask.call(ConnectionPool.java:535)
+	at io.agroal.pool.ConnectionPool$CreateConnectionTask.call(ConnectionPool.java:516)
+	at java.base/java.util.concurrent.FutureTask.run(FutureTask.java:317)
+	at io.agroal.pool.util.PriorityScheduledExecutor.beforeExecute(PriorityScheduledExecutor.java:75)
+	at java.base/java.util.concurrent.ThreadPoolExecutor.runWorker(ThreadPoolExecutor.java:1142)
+	at java.base/java.util.concurrent.ThreadPoolExecutor$Worker.run(ThreadPoolExecutor.java:642)
+	at java.base/java.lang.Thread.run(Thread.java:1589)
+Caused by: org.h2.jdbc.JdbcSQLNonTransientConnectionException: Archivo corrupto mientras se leía el registro: "D:/uni/SAD/SadLab/keycloak-20.0.1/data/h2/keycloakdb.mv.db". Solución Posible: use la herramienta de recuperación (recovery tool)
+File corrupted while reading record: "D:/uni/SAD/SadLab/keycloak-20.0.1/data/h2/keycloakdb.mv.db". Possible solution: use the recovery tool [90030-214]
+	at org.h2.message.DbException.getJdbcSQLException(DbException.java:678)
+	at org.h2.message.DbException.getJdbcSQLException(DbException.java:477)
+	... 18 more
+Caused by: org.h2.mvstore.MVStoreException: File is corrupted - unable to recover a valid set of chunks [2.1.214/6]
+	at org.h2.mvstore.DataUtils.newMVStoreException(DataUtils.java:1004)
+	at org.h2.mvstore.MVStore.readStoreHeader(MVStore.java:1038)
+	at org.h2.mvstore.MVStore.<init>(MVStore.java:463)
+	at org.h2.mvstore.MVStore$Builder.open(MVStore.java:4082)
+	at org.h2.mvstore.db.Store.<init>(Store.java:136)
+	... 15 more
