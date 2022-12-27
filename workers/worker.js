@@ -1,6 +1,5 @@
 const kafka  = require('../kafka.js')  
 const groupId = 'resolver-Work'
-const uuid = require('uuid');
 const producer = kafka.producer()
 const consumer = kafka.consumer({ groupId })
 var fs = require('fs');
@@ -43,22 +42,20 @@ const ConsumeMessage = async () => {
              key: message.key.toString(),
              value: message.value.toString()
           })
-          var obj = JSON.parse(message.value.toString());
-          shell.cd(path)
-          shell.exec('git clone ' + obj.message.link)
-          var messageToSend = {
-            id: obj.message.id,
-            order: obj.message.order,
-            link: obj.message.link,
-            params: obj.message.params,
-            dependencies: obj.message.dependencies,
-            resultFileName: obj.message.resultFileName,
-            nick: obj.message.nick,
-            email: obj.message.email,
-            name: obj.message.name,
-            status: "JobDone",
-        }
+        var obj = JSON.parse(message.value.toString());
+        shell.cd(path)
+        var gitName = extractGitHubName(obj.message.link) 
+        var gitName = gitName.toString().replace('.git','')
+        if(fs.existsSync(path + "/" + gitName) == false){
+         shell.exec('git clone ' + obj.message.link)  
+        } 
         await DoJobs(obj.message)
+        var messageToSend = {
+         id: obj.message.id,
+         nick: obj.message.nick,
+         email: obj.message.email,
+         status: "JobDone"
+        }
         CheckArray(messageToSend)
         writeUserDataToKafka({messageToSend})
        }
@@ -78,6 +75,15 @@ function CheckArray(message) {
    data = JSON.stringify(Works, null, 2)
    fs.writeFileSync('../Works.js',data, finished)
 }
+
+function extractGitHubName(url) {
+   if (!url) return null
+   const match = url.match(
+     /^https?:\/\/(www\.)?github.com\/(?<owner>[\w.-]+)\/(?<name>[\w.-]+)/
+   )
+   if (!match || !(match.groups?.owner && match.groups?.name)) return null
+   return `${match.groups.name}`
+ }
 
 async function DoJobs(QueMessage){
    //Calculate time elapse
@@ -100,9 +106,14 @@ async function DoJobs(QueMessage){
       cwd: path + '/'
     },(error, stdout, stderr) => {
       if (error) {
-          data = JSON.stringify(`error: ${error.message}`, null, 2)
-          fs.writeFileSync('../doneJobs/' + QueMessage.resultFileName + '.json' ,data, finished)
-          return;
+         var finishedJob = {
+            id: QueMessage.id,
+            time: timeTook,
+            result: error.message
+         }
+         data = JSON.stringify(finishedJob, null, 2)
+         fs.writeFileSync('../doneJobs/' + QueMessage.id + '.json' ,data, finished)
+         return;
       }
       if (stderr) {
           console.log(`stderr: ${stderr}`);
@@ -112,16 +123,11 @@ async function DoJobs(QueMessage){
       var timeTook=(end-begin)/1000+"secs";
       var finishedJob = {
          id: QueMessage.id,
-         link: QueMessage.link,
-         nick: QueMessage.nick,
-         email: QueMessage.email,
-         name: QueMessage.name,
-         status: "JobFinished",
          time: timeTook,
          result: stdout
      }
      data = JSON.stringify(finishedJob, null, 2)
-     fs.writeFileSync('../doneJobs/' + QueMessage.resultFileName + '.json' ,data, finished)
+     fs.writeFileSync('../doneJobs/' + QueMessage.id + '.json' ,data, finished)
      return;
   })
   } 

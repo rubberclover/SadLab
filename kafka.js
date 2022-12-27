@@ -13,6 +13,7 @@ const kafka = new Kafka({ clientId, brokers /*ssl sasl*/ })
 
 const producer = kafka.producer()
 const consumer = kafka.consumer({ groupId })
+const admin = kafka.admin()
 
 const writeUserDataToKafka = async (payload) => {
     await producer.connect()
@@ -52,6 +53,17 @@ const ConsumeMessage = async () => {
     })
 }
 
+const CreateTopics = async () => {
+   await admin.createTopics({
+      waitForLeaders: true,
+      topics: [
+        { topic: 'Topic1' },
+        { topic: 'Topic2'}
+      ],
+    })
+}
+
 module.exports = kafka
 module.exports.writeUserDataToKafka = writeUserDataToKafka
 module.exports.ConsumeMessage = ConsumeMessage
+module.exports.CreateTopics = CreateTopics

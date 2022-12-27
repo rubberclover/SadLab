@@ -386,3 +386,182 @@ Caused by: org.h2.mvstore.MVStoreException: File is corrupted - unable to recove
 	at org.h2.mvstore.MVStore$Builder.open(MVStore.java:4082)
 	at org.h2.mvstore.db.Store.<init>(Store.java:136)
 	... 15 more
+2022-12-26 16:47:29 database: opening D:/uni/SAD/SadLab/keycloak-20.0.1/data/h2/keycloakdb
+org.h2.message.DbException: IO Exception: "D:/uni/SAD/SadLab/keycloak-20.0.1/data/h2/keycloakdb.mv.db"
+IO Exception: "D:/uni/SAD/SadLab/keycloak-20.0.1/data/h2/keycloakdb.mv.db" [90028-214]
+	at org.h2.message.DbException.get(DbException.java:212)
+	at org.h2.mvstore.db.Store.convertMVStoreException(Store.java:171)
+	at org.h2.mvstore.db.Store.createTable(Store.java:223)
+	at org.h2.schema.Schema.createTable(Schema.java:776)
+	at org.h2.engine.Database.<init>(Database.java:351)
+	at org.h2.engine.Engine.openSession(Engine.java:92)
+	at org.h2.engine.Engine.openSession(Engine.java:222)
+	at org.h2.engine.Engine.createSession(Engine.java:201)
+	at org.h2.engine.SessionRemote.connectEmbeddedOrServer(SessionRemote.java:338)
+	at org.h2.jdbc.JdbcConnection.<init>(JdbcConnection.java:122)
+	at org.h2.jdbcx.JdbcDataSource.getXAConnection(JdbcDataSource.java:322)
+	at io.agroal.pool.ConnectionFactory.createConnection(ConnectionFactory.java:232)
+	at io.agroal.pool.ConnectionPool$CreateConnectionTask.call(ConnectionPool.java:535)
+	at io.agroal.pool.ConnectionPool$CreateConnectionTask.call(ConnectionPool.java:516)
+	at java.base/java.util.concurrent.FutureTask.run(FutureTask.java:317)
+	at io.agroal.pool.util.PriorityScheduledExecutor.beforeExecute(PriorityScheduledExecutor.java:75)
+	at java.base/java.util.concurrent.ThreadPoolExecutor.runWorker(ThreadPoolExecutor.java:1142)
+	at java.base/java.util.concurrent.ThreadPoolExecutor$Worker.run(ThreadPoolExecutor.java:642)
+	at java.base/java.lang.Thread.run(Thread.java:1589)
+Caused by: org.h2.jdbc.JdbcSQLNonTransientException: IO Exception: "D:/uni/SAD/SadLab/keycloak-20.0.1/data/h2/keycloakdb.mv.db"
+IO Exception: "D:/uni/SAD/SadLab/keycloak-20.0.1/data/h2/keycloakdb.mv.db" [90028-214]
+	at org.h2.message.DbException.getJdbcSQLException(DbException.java:554)
+	at org.h2.message.DbException.getJdbcSQLException(DbException.java:477)
+	... 19 more
+Caused by: org.h2.mvstore.MVStoreException: Reading from file sun.nio.ch.FileChannelImpl@5bc3d19b failed at 508281 (length -1), read 0, remaining 4096 [2.1.214/1]
+	at org.h2.mvstore.DataUtils.newMVStoreException(DataUtils.java:1004)
+	at org.h2.mvstore.DataUtils.readFully(DataUtils.java:470)
+	at org.h2.mvstore.FileStore.readFully(FileStore.java:98)
+	at org.h2.mvstore.Chunk.readBufferForPage(Chunk.java:422)
+	at org.h2.mvstore.MVStore.readPage(MVStore.java:2569)
+	at org.h2.mvstore.MVMap.readPage(MVMap.java:633)
+	at org.h2.mvstore.Page$NonLeaf.getChildPage(Page.java:1125)
+	at org.h2.mvstore.CursorPos.traverseDown(CursorPos.java:61)
+	at org.h2.mvstore.MVMap.operate(MVMap.java:1770)
+	at org.h2.mvstore.MVMap.putIfAbsent(MVMap.java:530)
+	at org.h2.mvstore.tx.TransactionStore$TxMapBuilder.registerDataType(TransactionStore.java:859)
+	at org.h2.mvstore.tx.TransactionStore$TxMapBuilder.create(TransactionStore.java:899)
+	at org.h2.mvstore.MVStore.openMap(MVStore.java:699)
+	at org.h2.mvstore.MVStore.openMap(MVStore.java:648)
+	at org.h2.mvstore.tx.TransactionStore.openMap(TransactionStore.java:564)
+	at org.h2.mvstore.tx.TransactionStore.openVersionedMap(TransactionStore.java:550)
+	at org.h2.mvstore.tx.Transaction.openMap(Transaction.java:456)
+	at org.h2.mvstore.db.MVPrimaryIndex.<init>(MVPrimaryIndex.java:53)
+	at org.h2.mvstore.db.MVTable.<init>(MVTable.java:156)
+	at org.h2.mvstore.db.Store.createTable(Store.java:219)
+	... 16 more
+Caused by: java.nio.channels.ClosedByInterruptException
+	at java.base/java.nio.channels.spi.AbstractInterruptibleChannel.end(AbstractInterruptibleChannel.java:199)
+	at java.base/sun.nio.ch.FileChannelImpl.endBlocking(FileChannelImpl.java:177)
+	at java.base/sun.nio.ch.FileChannelImpl.readInternal(FileChannelImpl.java:984)
+	at java.base/sun.nio.ch.FileChannelImpl.read(FileChannelImpl.java:956)
+	at org.h2.mvstore.DataUtils.readFully(DataUtils.java:456)
+	... 34 more
+2022-12-26 16:48:40 database: CREATE CACHED TABLE "PUBLIC"."CLIENT_ATTRIBUTES"(
+    "CLIENT_ID" CHARACTER VARYING(36) NOT NULL,
+    "NAME" CHARACTER VARYING(255) NOT NULL,
+    "VALUE" CHARACTER LARGE OBJECT
+)
+org.h2.jdbc.JdbcSQLNonTransientException: IO Exception: "D:/uni/SAD/SadLab/keycloak-20.0.1/data/h2/keycloakdb.mv.db"
+IO Exception: "D:/uni/SAD/SadLab/keycloak-20.0.1/data/h2/keycloakdb.mv.db"; SQL statement:
+CREATE CACHED TABLE "PUBLIC"."CLIENT_ATTRIBUTES"(
+    "CLIENT_ID" CHARACTER VARYING(36) NOT NULL,
+    "NAME" CHARACTER VARYING(255) NOT NULL,
+    "VALUE" CHARACTER LARGE OBJECT
+) [90028-214]
+	at org.h2.message.DbException.getJdbcSQLException(DbException.java:554)
+	at org.h2.message.DbException.getJdbcSQLException(DbException.java:477)
+	at org.h2.message.DbException.get(DbException.java:212)
+	at org.h2.mvstore.db.Store.convertMVStoreException(Store.java:171)
+	at org.h2.mvstore.db.Store.createTable(Store.java:223)
+	at org.h2.schema.Schema.createTable(Schema.java:776)
+	at org.h2.command.ddl.CreateTable.update(CreateTable.java:112)
+	at org.h2.engine.MetaRecord.prepareAndExecute(MetaRecord.java:77)
+	at org.h2.engine.Database.executeMeta(Database.java:660)
+	at org.h2.engine.Database.executeMeta(Database.java:634)
+	at org.h2.engine.Database.<init>(Database.java:357)
+	at org.h2.engine.Engine.openSession(Engine.java:92)
+	at org.h2.engine.Engine.openSession(Engine.java:222)
+	at org.h2.engine.Engine.createSession(Engine.java:201)
+	at org.h2.engine.SessionRemote.connectEmbeddedOrServer(SessionRemote.java:338)
+	at org.h2.jdbc.JdbcConnection.<init>(JdbcConnection.java:122)
+	at org.h2.jdbcx.JdbcDataSource.getXAConnection(JdbcDataSource.java:322)
+	at io.agroal.pool.ConnectionFactory.createConnection(ConnectionFactory.java:232)
+	at io.agroal.pool.ConnectionPool$CreateConnectionTask.call(ConnectionPool.java:535)
+	at io.agroal.pool.ConnectionPool$CreateConnectionTask.call(ConnectionPool.java:516)
+	at java.base/java.util.concurrent.FutureTask.run(FutureTask.java:317)
+	at io.agroal.pool.util.PriorityScheduledExecutor.beforeExecute(PriorityScheduledExecutor.java:75)
+	at java.base/java.util.concurrent.ThreadPoolExecutor.runWorker(ThreadPoolExecutor.java:1142)
+	at java.base/java.util.concurrent.ThreadPoolExecutor$Worker.run(ThreadPoolExecutor.java:642)
+	at java.base/java.lang.Thread.run(Thread.java:1589)
+Caused by: org.h2.mvstore.MVStoreException: Reading from file sun.nio.ch.FileChannelImpl@10ad3e74 failed at 792850 (length -1), read 0, remaining 1536 [2.1.214/1]
+	at org.h2.mvstore.DataUtils.newMVStoreException(DataUtils.java:1004)
+	at org.h2.mvstore.DataUtils.readFully(DataUtils.java:470)
+	at org.h2.mvstore.FileStore.readFully(FileStore.java:98)
+	at org.h2.mvstore.Chunk.readBufferForPage(Chunk.java:422)
+	at org.h2.mvstore.MVStore.readPage(MVStore.java:2569)
+	at org.h2.mvstore.MVMap.readPage(MVMap.java:633)
+	at org.h2.mvstore.MVMap.readOrCreateRootPage(MVMap.java:658)
+	at org.h2.mvstore.MVMap.setRootPos(MVMap.java:643)
+	at org.h2.mvstore.MVStore.openMap(MVStore.java:702)
+	at org.h2.mvstore.MVStore.openMap(MVStore.java:648)
+	at org.h2.mvstore.tx.TransactionStore.openMap(TransactionStore.java:564)
+	at org.h2.mvstore.tx.TransactionStore.openVersionedMap(TransactionStore.java:550)
+	at org.h2.mvstore.tx.Transaction.openMap(Transaction.java:456)
+	at org.h2.mvstore.db.MVPrimaryIndex.<init>(MVPrimaryIndex.java:53)
+	at org.h2.mvstore.db.MVTable.<init>(MVTable.java:156)
+	at org.h2.mvstore.db.Store.createTable(Store.java:219)
+	... 20 more
+Caused by: java.nio.channels.ClosedByInterruptException
+	at java.base/java.nio.channels.spi.AbstractInterruptibleChannel.end(AbstractInterruptibleChannel.java:199)
+	at java.base/sun.nio.ch.FileChannelImpl.endBlocking(FileChannelImpl.java:177)
+	at java.base/sun.nio.ch.FileChannelImpl.readInternal(FileChannelImpl.java:984)
+	at java.base/sun.nio.ch.FileChannelImpl.read(FileChannelImpl.java:956)
+	at org.h2.mvstore.DataUtils.readFully(DataUtils.java:456)
+	... 34 more
+2022-12-26 16:48:41 database: opening D:/uni/SAD/SadLab/keycloak-20.0.1/data/h2/keycloakdb
+org.h2.message.DbException: IO Exception: "D:/uni/SAD/SadLab/keycloak-20.0.1/data/h2/keycloakdb.mv.db"
+IO Exception: "D:/uni/SAD/SadLab/keycloak-20.0.1/data/h2/keycloakdb.mv.db" [90028-214]
+	at org.h2.message.DbException.get(DbException.java:212)
+	at org.h2.mvstore.db.Store.convertMVStoreException(Store.java:171)
+	at org.h2.mvstore.db.Store.createTable(Store.java:223)
+	at org.h2.schema.Schema.createTable(Schema.java:776)
+	at org.h2.command.ddl.CreateTable.update(CreateTable.java:112)
+	at org.h2.engine.MetaRecord.prepareAndExecute(MetaRecord.java:77)
+	at org.h2.engine.Database.executeMeta(Database.java:660)
+	at org.h2.engine.Database.executeMeta(Database.java:634)
+	at org.h2.engine.Database.<init>(Database.java:357)
+	at org.h2.engine.Engine.openSession(Engine.java:92)
+	at org.h2.engine.Engine.openSession(Engine.java:222)
+	at org.h2.engine.Engine.createSession(Engine.java:201)
+	at org.h2.engine.SessionRemote.connectEmbeddedOrServer(SessionRemote.java:338)
+	at org.h2.jdbc.JdbcConnection.<init>(JdbcConnection.java:122)
+	at org.h2.jdbcx.JdbcDataSource.getXAConnection(JdbcDataSource.java:322)
+	at io.agroal.pool.ConnectionFactory.createConnection(ConnectionFactory.java:232)
+	at io.agroal.pool.ConnectionPool$CreateConnectionTask.call(ConnectionPool.java:535)
+	at io.agroal.pool.ConnectionPool$CreateConnectionTask.call(ConnectionPool.java:516)
+	at java.base/java.util.concurrent.FutureTask.run(FutureTask.java:317)
+	at io.agroal.pool.util.PriorityScheduledExecutor.beforeExecute(PriorityScheduledExecutor.java:75)
+	at java.base/java.util.concurrent.ThreadPoolExecutor.runWorker(ThreadPoolExecutor.java:1142)
+	at java.base/java.util.concurrent.ThreadPoolExecutor$Worker.run(ThreadPoolExecutor.java:642)
+	at java.base/java.lang.Thread.run(Thread.java:1589)
+Caused by: org.h2.jdbc.JdbcSQLNonTransientException: IO Exception: "D:/uni/SAD/SadLab/keycloak-20.0.1/data/h2/keycloakdb.mv.db"
+IO Exception: "D:/uni/SAD/SadLab/keycloak-20.0.1/data/h2/keycloakdb.mv.db"; SQL statement:
+CREATE CACHED TABLE "PUBLIC"."CLIENT_ATTRIBUTES"(
+    "CLIENT_ID" CHARACTER VARYING(36) NOT NULL,
+    "NAME" CHARACTER VARYING(255) NOT NULL,
+    "VALUE" CHARACTER LARGE OBJECT
+) [90028-214]
+	at org.h2.message.DbException.getJdbcSQLException(DbException.java:554)
+	at org.h2.message.DbException.getJdbcSQLException(DbException.java:477)
+	... 23 more
+Caused by: org.h2.mvstore.MVStoreException: Reading from file sun.nio.ch.FileChannelImpl@10ad3e74 failed at 792850 (length -1), read 0, remaining 1536 [2.1.214/1]
+	at org.h2.mvstore.DataUtils.newMVStoreException(DataUtils.java:1004)
+	at org.h2.mvstore.DataUtils.readFully(DataUtils.java:470)
+	at org.h2.mvstore.FileStore.readFully(FileStore.java:98)
+	at org.h2.mvstore.Chunk.readBufferForPage(Chunk.java:422)
+	at org.h2.mvstore.MVStore.readPage(MVStore.java:2569)
+	at org.h2.mvstore.MVMap.readPage(MVMap.java:633)
+	at org.h2.mvstore.MVMap.readOrCreateRootPage(MVMap.java:658)
+	at org.h2.mvstore.MVMap.setRootPos(MVMap.java:643)
+	at org.h2.mvstore.MVStore.openMap(MVStore.java:702)
+	at org.h2.mvstore.MVStore.openMap(MVStore.java:648)
+	at org.h2.mvstore.tx.TransactionStore.openMap(TransactionStore.java:564)
+	at org.h2.mvstore.tx.TransactionStore.openVersionedMap(TransactionStore.java:550)
+	at org.h2.mvstore.tx.Transaction.openMap(Transaction.java:456)
+	at org.h2.mvstore.db.MVPrimaryIndex.<init>(MVPrimaryIndex.java:53)
+	at org.h2.mvstore.db.MVTable.<init>(MVTable.java:156)
+	at org.h2.mvstore.db.Store.createTable(Store.java:219)
+	... 20 more
+Caused by: java.nio.channels.ClosedByInterruptException
+	at java.base/java.nio.channels.spi.AbstractInterruptibleChannel.end(AbstractInterruptibleChannel.java:199)
+	at java.base/sun.nio.ch.FileChannelImpl.endBlocking(FileChannelImpl.java:177)
+	at java.base/sun.nio.ch.FileChannelImpl.readInternal(FileChannelImpl.java:984)
+	at java.base/sun.nio.ch.FileChannelImpl.read(FileChannelImpl.java:956)
+	at org.h2.mvstore.DataUtils.readFully(DataUtils.java:456)
+	... 34 more
