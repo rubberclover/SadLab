@@ -12,7 +12,7 @@ const writeUserDataToKafka = async (payload) => {
     await producer.connect()
     try {
        const responses = await producer.send({
-          topic: "Topic2",
+          topic: "ResultQue",
           messages: [{
              // Name of the published package as key, to make sure that we process events in order
              key: "TestKey",
@@ -30,7 +30,7 @@ const writeUserDataToKafka = async (payload) => {
 const ConsumeMessage = async () => {
     await consumer.connect()
     await consumer.subscribe({
-       topic: "Topic1",
+       topic: "JobQue",
        fromBeginning: true
     })
  
@@ -49,15 +49,8 @@ const ConsumeMessage = async () => {
         if(fs.existsSync(path + "/" + gitName) == false){
          shell.exec('git clone ' + obj.message.link)  
         } 
-        await DoJobs(obj.message)
-        var messageToSend = {
-         id: obj.message.id,
-         nick: obj.message.nick,
-         email: obj.message.email,
-         status: "JobDone"
-        }
-        CheckArray(messageToSend)
-        writeUserDataToKafka({messageToSend})
+        DoJobs(obj.message)
+        //CheckArray(messageToSend)
        }
     })
 }
@@ -85,7 +78,7 @@ function extractGitHubName(url) {
    return `${match.groups.name}`
  }
 
-async function DoJobs(QueMessage){
+function DoJobs(QueMessage){
    //Calculate time elapse
    var begin=Date.now();
    if(QueMessage.dependencies != ""){
@@ -106,13 +99,16 @@ async function DoJobs(QueMessage){
       cwd: path + '/'
     },(error, stdout, stderr) => {
       if (error) {
+         var end= Date.now();
+         var timeTook=(end-begin)/1000+"secs";
          var finishedJob = {
             id: QueMessage.id,
             time: timeTook,
             result: error.message
          }
-         data = JSON.stringify(finishedJob, null, 2)
-         fs.writeFileSync('../doneJobs/' + QueMessage.id + '.json' ,data, finished)
+         /*data = JSON.stringify(finishedJob, null, 2)
+         fs.writeFileSync('../doneJobs/' + QueMessage.id + '.json' ,data, finished)*/
+         writeUserDataToKafka({finishedJob})
          return;
       }
       if (stderr) {
@@ -123,11 +119,15 @@ async function DoJobs(QueMessage){
       var timeTook=(end-begin)/1000+"secs";
       var finishedJob = {
          id: QueMessage.id,
+         nick: QueMessage.nick,
+         email: QueMessage.email,
          time: timeTook,
-         result: stdout
+         result: stdout,
+         status: "JobDone"
      }
-     data = JSON.stringify(finishedJob, null, 2)
-     fs.writeFileSync('../doneJobs/' + QueMessage.id + '.json' ,data, finished)
+     /*data = JSON.stringify(finishedJob, null, 2)
+     fs.writeFileSync('../doneJobs/' + QueMessage.id + '.json' ,data, finished)*/
+     writeUserDataToKafka({finishedJob})
      return;
   })
   } 

@@ -5,6 +5,8 @@ const password = ''
 const brokers = ['localhost:9092']
 const clientId = 'test-id-example'
 const groupId = 'app-example'
+var fs = require('fs');
+const { finished } = require('stream');
 
 const sasl = username && password ? { username, password, mechanism: 'plain' } : null
 const ssl = !!sasl
@@ -19,7 +21,7 @@ const writeUserDataToKafka = async (payload) => {
     await producer.connect()
     try {
        const responses = await producer.send({
-          topic: "Topic1",
+          topic: "JobQue",
           messages: [{
              // Name of the published package as key, to make sure that we process events in order
              key: "TestKey",
@@ -37,7 +39,7 @@ const writeUserDataToKafka = async (payload) => {
 const ConsumeMessage = async () => {
     await consumer.connect()
     await consumer.subscribe({
-       topic: "Topic2",
+       topic: "ResultQue",
        fromBeginning: true
     })
  
@@ -49,6 +51,21 @@ const ConsumeMessage = async () => {
              key: message.key.toString(),
              value: message.value.toString()
           })
+          var obj = JSON.parse(message.value.toString())       
+          var messageToSend = {
+           id: obj.finishedJob.id,
+           nick: obj.finishedJob.nick,
+           email: obj.finishedJob.email,
+           status: "JobDone"
+          }
+          CheckArray(messageToSend)
+          var messageToSend = {
+            id: obj.finishedJob.id,
+            time: obj.finishedJob.time,
+            result: obj.finishedJob.result
+           }
+          data = JSON.stringify(messageToSend, null, 2)
+          fs.writeFileSync('./doneJobs/' + messageToSend.id + '.json' ,data, finished)
        }
     })
 }
@@ -57,10 +74,24 @@ const CreateTopics = async () => {
    await admin.createTopics({
       waitForLeaders: true,
       topics: [
-        { topic: 'Topic1' },
-        { topic: 'Topic2'}
+        { topic: 'JobQue' },
+        { topic: 'ResultQue'}
       ],
     })
+}
+
+function CheckArray(message) {
+   let data = fs.readFileSync('./Works.js')
+   let Works = JSON.parse(data)
+   if(Works.filter(it => it.id == message.id)){
+      var index = Works.findIndex(item=> item.id === message.id)
+      Works[index] = message
+   }
+   else {
+      Works.push(message)
+   }
+   data = JSON.stringify(Works, null, 2)
+   fs.writeFileSync('./Works.js',data, finished)
 }
 
 module.exports = kafka

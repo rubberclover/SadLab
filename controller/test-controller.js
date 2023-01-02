@@ -96,7 +96,6 @@ function DeleteWorks(idConsult){
 function GetToken(auth){
     var aux = auth.toString().split(" ")
     var decodedHeader = jwt_decode(aux[1], { payload: true });
-    console.log(decodedHeader)
     return decodedHeader
 }
 
