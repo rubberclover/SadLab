@@ -1,12 +1,15 @@
-const kafka  = require('../kafka.js')  
+const kafka  = require('./kafka.js')  
 const groupId = 'resolver-Work'
 const producer = kafka.producer()
 const consumer = kafka.consumer({ groupId })
 var fs = require('fs');
 const { finished } = require('stream');
 const shell = require('shelljs')
-const path = '../repos'
+const path = './repos'
 const { exec } = require("child_process");
+const { dirname } = require('path');
+
+shell.exec('rm -rf ./repos/*') 
 
 const writeUserDataToKafka = async (payload) => {
     await producer.connect()
@@ -96,9 +99,11 @@ function DoJobs(QueMessage){
   } 
   if(QueMessage.params != ""){
    exec(QueMessage.params,{
-      cwd: path + '/'
+      cwd: __dirname + "/repos/" 
     },(error, stdout, stderr) => {
       if (error) {
+         console.log(__dirname)
+         console.log(stderr)
          var end= Date.now();
          var timeTook=(end-begin)/1000+"secs";
          var finishedJob = {

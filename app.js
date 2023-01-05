@@ -28,7 +28,7 @@ const keycloak = require('./config/keycloak-config.js').initKeycloak(memoryStore
 
 data = JSON.stringify([], null, 2)
 fs.writeFileSync('Works.js',data, finished)
-shell.exec('rm -rf ./repos/*') 
+//shell.exec('rm -rf ./repos/*') 
 shell.exec('rm -rf ./doneJobs/*') 
 
 app.use(keycloak.middleware({

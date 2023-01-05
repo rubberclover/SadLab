@@ -1,0 +1,38 @@
+{
+  "name": "sadlab",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/rubberclover/SadLab.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/rubberclover/SadLab/issues"
+  },
+  "homepage": "https://github.com/rubberclover/SadLab#readme",
+  "dependencies": {
+    "body-parser": "^1.20.1",
+    "child_process": "^1.0.2",
+    "cors": "^2.8.5",
+    "crypto-js": "^4.1.1",
+    "express": "^4.18.2",
+    "express-session": "^1.17.3",
+    "git-clone": "^0.2.0",
+    "jose": "^4.11.1",
+    "jwt-decode": "^3.1.2",
+    "kafkajs": "^2.2.3",
+    "keycloak-connect": "^20.0.1",
+    "mongoose": "^6.7.5",
+    "promise": "^8.3.0",
+    "request": "^2.88.2",
+    "shelljs": "^0.8.5",
+    "uuid": "^9.0.0"
+  }
+}
