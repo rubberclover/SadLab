@@ -1,12 +1,10 @@
-FROM node:12.18.1
+FROM alpine
 
-WORKDIR /SADLAB/workers
+RUN apk update && apk add nodejs
 
-COPY ["package.json", "package-lock.json*", "./"]
+COPY . /workers
 
-RUN npm install --production
-
-COPY . .
+WORKDIR /workers
 
 # run the application
 CMD ["node" , "worker.js"]
