@@ -1,8 +1,18 @@
-curl -L -X POST 'http://localhost:8080/realms/sadProject/protocol/openid-connect/token' \
+curl -L -X POST 'http://localhost:8080/auth/realms/sadProject/protocol/openid-connect/token' \
   -H 'Content-Type: application/x-www-form-urlencoded' \
   --data-urlencode 'client_id=service-app' \
   --data-urlencode 'grant_type=password' \
-  --data-urlencode 'client_secret=ArKEqt2TXJ9l112nO66IXVqMNt4Ttupl' \
+  --data-urlencode 'client_secret=zHn4WWnbYSywnEIpTFvd74OpPzsYp5w1' \
   --data-urlencode 'scope=openid' \
-  --data-urlencode 'username=testuser' \
+  --data-urlencode 'username=' \
   --data-urlencode 'password=testUser'
+
+  var keycloakConfig = {
+    clientId: 'service-app',
+    bearerOnly: true,
+    serverUrl: 'http://localhost:8080/',
+    realm: 'sadProject',
+    credentials: {
+        secret: 'ArKEqt2TXJ9l112nO66IXVqMNt4Ttupl'
+    }
+}

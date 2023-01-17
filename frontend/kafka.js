@@ -2,9 +2,9 @@ const { Kafka } = require('kafkajs')
 
 const username = ''
 const password = ''
-const brokers = ['localhost:9092']
-const clientId = 'sadProject'
-const groupId = 'app-example'
+const brokers = [process.env.KAFKA_BROKER_SERVER]
+const clientId = process.env.KEYCLOAK_CLIENTID
+const groupId = 'FrontEndQue'
 var fs = require('fs');
 const { finished } = require('stream');
 
@@ -21,7 +21,7 @@ const writeUserDataToKafka = async (payload) => {
     await producer.connect()
     try {
        const responses = await producer.send({
-          topic: "JobQue",
+          topic: "Sending",
           messages: [{
              // Name of the published package as key, to make sure that we process events in order
              key: "TestKey",
@@ -39,7 +39,7 @@ const writeUserDataToKafka = async (payload) => {
 const ConsumeMessage = async () => {
     await consumer.connect()
     await consumer.subscribe({
-       topic: "ResultQue",
+       topic: "Results",
        fromBeginning: true
     })
  
@@ -70,7 +70,7 @@ const ConsumeMessage = async () => {
     })
 }
 
-const CreateTopics = async () => {
+/*const CreateTopics = async () => {
    await admin.createTopics({
       waitForLeaders: true,
       topics: [
@@ -78,7 +78,7 @@ const CreateTopics = async () => {
         { topic: 'ResultQue'}
       ],
     })
-}
+}*/
 
 function CheckArray(message) {
    let data = fs.readFileSync('./Works.js')
@@ -97,4 +97,4 @@ function CheckArray(message) {
 module.exports = kafka
 module.exports.writeUserDataToKafka = writeUserDataToKafka
 module.exports.ConsumeMessage = ConsumeMessage
-module.exports.CreateTopics = CreateTopics
+//module.exports.CreateTopics = CreateTopics

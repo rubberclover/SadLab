@@ -10,8 +10,6 @@ const { finished } = require('stream');
 const bodyParser = require('body-parser')
 const shell = require('shelljs')
 
-CreateTopics()
-
 app.use(bodyParser.json())
 app.use(cors());
 
@@ -39,6 +37,8 @@ app.use(keycloak.middleware({
 var testController = require('./controller/test-controller.js');
 
 ConsumeMessage()
+
+//CreateTopics()
 
 app.use('/test', testController);
 

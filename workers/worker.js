@@ -1,21 +1,21 @@
 const kafka  = require('./kafka.js')  
-const groupId = 'resolver-Work'
+const groupId = 'WorkerQue'
 const producer = kafka.producer()
 const consumer = kafka.consumer({ groupId })
 var fs = require('fs');
 const { finished } = require('stream');
 const shell = require('shelljs')
-const path = './repos'
+const path = 'repos'
 const { exec } = require("child_process");
 const { dirname } = require('path');
 
-shell.exec('rm -rf ./repos/*') 
+shell.exec('rm -rf /repos/*') 
 
 const writeUserDataToKafka = async (payload) => {
     await producer.connect()
     try {
        const responses = await producer.send({
-          topic: "ResultQue",
+          topic: "Results",
           messages: [{
              // Name of the published package as key, to make sure that we process events in order
              key: "TestKey",
@@ -33,7 +33,7 @@ const writeUserDataToKafka = async (payload) => {
 const ConsumeMessage = async () => {
     await consumer.connect()
     await consumer.subscribe({
-       topic: "JobQue",
+       topic: "Sending",
        fromBeginning: true
     })
  
@@ -49,27 +49,14 @@ const ConsumeMessage = async () => {
         shell.cd(path)
         var gitName = extractGitHubName(obj.message.link) 
         var gitName = gitName.toString().replace('.git','')
-        if(fs.existsSync(path + "/" + gitName) == false){
-         shell.exec('git clone ' + obj.message.link)  
+        if(fs.existsSync(shell.pwd().toString() + "/" + gitName) == false){
+         shell.exec('git clone ' + obj.message.link)
+         console.log("Existo " + shell.ls(shell.ls(shell.pwd().toString())))  
         } 
         DoJobs(obj.message)
         //CheckArray(messageToSend)
        }
     })
-}
-
-function CheckArray(message) {
-   let data = fs.readFileSync('../Works.js')
-   let Works = JSON.parse(data)
-   if(Works.filter(it => it.id == message.id)){
-      var index = Works.findIndex(item=> item.id === message.id)
-      Works[index] = message
-   }
-   else {
-      Works.push(message)
-   }
-   data = JSON.stringify(Works, null, 2)
-   fs.writeFileSync('../Works.js',data, finished)
 }
 
 function extractGitHubName(url) {
@@ -99,10 +86,10 @@ function DoJobs(QueMessage){
   } 
   if(QueMessage.params != ""){
    exec(QueMessage.params,{
-      cwd: __dirname + "/repos/" 
+      cwd: shell.pwd().toString()
     },(error, stdout, stderr) => {
       if (error) {
-         console.log(__dirname)
+         console.log(shell.pwd().toString())
          console.log(stderr)
          var end= Date.now();
          var timeTook=(end-begin)/1000+"secs";

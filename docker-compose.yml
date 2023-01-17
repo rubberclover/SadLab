@@ -1,36 +1,44 @@
-version: '2'
+version: '3'
 services:
   zookeeper:
-    image: confluentinc/cp-zookeeper:latest
-    environment:
-      ZOOKEEPER_CLIENT_PORT: 2181
-      ZOOKEEPER_TICK_TIME: 2000
-
-  kafka:
-    image: confluentinc/cp-kafka:latest
-    labels:
-      - 'custom.project=kafkajs-zstd'
-      - 'custom.service=kafka'
-    depends_on:
-      - zookeeper
+    image: wurstmeister/zookeeper
+    container_name: zookeeper
     ports:
-      - 9092:9092
-      - 29092:29092
+      - "2181:2181"
+  kafka:
+    image: wurstmeister/kafka
+    container_name: kafka
+    ports:
+      - "9092:9092"
     environment:
-      KAFKA_BROKER_ID: 1
       KAFKA_ZOOKEEPER_CONNECT: zookeeper:2181
-      KAFKA_LISTENER_SECURITY_PROTOCOL_MAP: PLAINTEXT:PLAINTEXT,PLAINTEXT_HOST:PLAINTEXT
-      KAFKA_ADVERTISED_LISTENERS: PLAINTEXT://kafka:29092,PLAINTEXT_HOST://localhost:9092
-      KAFKA_INTER_BROKER_LISTENER_NAME: PLAINTEXT
-      KAFKA_OFFSETS_TOPIC_REPLICATION_FACTOR: 1
-      KAFKA_LOG4J_ROOT_LOGLEVEL: INFO
-      KAFKA_LOG4J_LOGGERS: 'kafka.controller=INFO,kafka.producer.async.DefaultEventHandler=INFO,state.change.logger=INFO'
-      CONFLUENT_SUPPORT_METRICS_ENABLE: 'false'
+      KAFKA_AUTO_CREATE_TOPICS_ENABLE: "true"
+      KAFKA_CREATE_TOPICS: "Sending:1:1,Results:1:1"
+      KAFKA_TOPIC_METADATA_REFRESH_INTERVAL_MS: "60000"
+      KAFKA_ADVERTISED_HOST_NAME: kafka
+      ALLOW_PLAINTEXT_LISTER: yes
+      KAFKA_ADVERTISED_LISTENERS: PLAINTEXT://kafka:9092
+      KAFKA_CFG_LISTENERS: PLAINTEX://:9092
+      KAFKA_CFG_ADVERTISED_LISTENERS: PLAINTEXT://kafka:9092
+
   frontend:
     image: marcado1/sadfrontend
+    ports:
+    - "3000:3000"
     depends_on:
       - kafka
+    environment:
+      KAFKA_BROKER_SERVER: kafka:9092
+      KEYCLOAK_CLIENTID: service-app
+      KEYCLOAK_REALM: sadProject
+      KEYCLOAK_SECRET: zHn4WWnbYSywnEIpTFvd74OpPzsYp5w1
+      KEYCLOAK_BROKER: keycloak:8080
+      KAFKA_ROLE: 
+
   worker:
-    image: marcado1/sadworker	
+    image: marcado1/sadworker
     depends_on:
       - kafka
+    environment:
+      KAFKA_BROKER_SERVER: kafka:9092
+      KEYCLOAK_CLIENTID: service-app

@@ -4,12 +4,12 @@ var Keycloak = require('keycloak-connect')
 let _keycloak
 
 var keycloakConfig = {
-    clientId: 'service-app',
+    clientId: process.env.KEYCLOAK_CLIENTID,
     bearerOnly: true,
-    serverUrl: 'http://localhost:8080/',
-    realm: 'sadProject',
+    serverUrl: process.env.KEYCLOAK_BROKER,
+    realm: process.env.KEYCLOAK_REALM,
     credentials: {
-        secret: 'ArKEqt2TXJ9l112nO66IXVqMNt4Ttupl'
+        secret: process.env.KEYCLOAK_SECRET
     }
 }
 

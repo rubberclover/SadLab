@@ -10,7 +10,7 @@ const keycloak = require('../config/keycloak-config.js').getKeycloak()
 const jwt_decode = require('jwt-decode')
 const shell = require('shelljs')
 
-router.post('/send-message',keycloak.protect('realm:Manager'),jsonParser,async (req, res) => {
+router.post('/send-message',jsonParser,async (req, res) => {
     const {link, params, dependencies} = req.body
     var token = GetToken(req.headers.authorization)
     var nick = token.preferred_username
@@ -29,11 +29,11 @@ router.post('/send-message',keycloak.protect('realm:Manager'),jsonParser,async (
     res.send(message.id)
 })
 
-router.get('/get-status',keycloak.protect('realm:Manager') ,async (req, res) => {
+router.get('/get-status',async (req, res) => {
     res.send(GetWorks(req.query.id))
 })
 
-router.get('/get-result',keycloak.protect('realm:Manager') ,async (req, res) => {
+router.get('/get-result',keycloak.protect(process.env.KAFKA_ROLE) ,async (req, res) => {
     var Job = GetWorks(req.query.id)
     if(Job.status == "JobDone"){
         let data = fs.readFileSync("./doneJobs/" + req.query.id + ".json" )
@@ -48,7 +48,7 @@ router.get('/get-result',keycloak.protect('realm:Manager') ,async (req, res) => 
     
 })
 
-router.get('/get-own-jobs',keycloak.protect('realm:Manager') ,async (req, res) => {
+router.get('/get-own-jobs',keycloak.protect(process.env.KAFKA_ROLE) ,async (req, res) => {
     var token = GetToken(req.headers.authorization)
     var nick = token.preferred_username
     var email = token.email
