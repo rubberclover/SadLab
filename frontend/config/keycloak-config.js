@@ -8,9 +8,7 @@ var keycloakConfig = {
     bearerOnly: true,
     serverUrl: process.env.KEYCLOAK_BROKER,
     realm: process.env.KEYCLOAK_REALM,
-    credentials: {
-        secret: process.env.KEYCLOAK_SECRET
-    }
+    realmPublicKey: process.env.KEYCLOAK_SECRET_KEY
 }
 
 function initKeycloak(memoryStore) {

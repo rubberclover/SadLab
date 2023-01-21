@@ -1,10 +1,51 @@
 version: '3'
-
+  
 volumes:
   postgres_data:
       driver: local
-
 services:
+  zookeeper:
+    image: wurstmeister/zookeeper
+    container_name: zookeeper
+    ports:
+      - "2181:2181"
+  kafka:
+    image: wurstmeister/kafka
+    container_name: kafka
+    ports:
+      - "9092:9092"
+    environment:
+      KAFKA_ZOOKEEPER_CONNECT: zookeeper:2181
+      KAFKA_AUTO_CREATE_TOPICS_ENABLE: "true"
+      KAFKA_CREATE_TOPICS: "Sending:1:1,Results:1:1"
+      KAFKA_TOPIC_METADATA_REFRESH_INTERVAL_MS: "60000"
+      KAFKA_ADVERTISED_HOST_NAME: kafka
+      ALLOW_PLAINTEXT_LISTER: yes
+      KAFKA_ADVERTISED_LISTENERS: PLAINTEXT://kafka:9092
+      KAFKA_CFG_LISTENERS: PLAINTEX://:9092
+      KAFKA_CFG_ADVERTISED_LISTENERS: PLAINTEXT://kafka:9092
+
+  frontend:
+    image: marcado1/sadfrontend
+    ports:
+    - "3000:3000"
+    depends_on:
+      - kafka
+    environment:
+      KAFKA_BROKER_SERVER: kafka:9092
+      KEYCLOAK_CLIENTID: service-app
+      KEYCLOAK_REALM: sadProject
+      KEYCLOAK_SECRET_KEY: MIIBIjANBgkqhkiG9w0BAQEFAAOCAQ8AMIIBCgKCAQEAnb2kHKDuEn3en5LsNbI4JfMpnDWpJCkzWiNEanlbIyv1KQ3OqQCzcapMB/dUtxFG34A8JYOCavM0GEPR/Ynr8dwu91F/t/LVwmLqDQCh3uRwHnYGIyWO/v6HfLyhIt7h0cQumeCibTqaU0BeDiayLP5XlJcUaZ+deQ9Z3dZobMxwffPvnlgHbL0CLaRVK0gVpbsH3FyBycpWhEfG9AacPmlWYy7z8yDxOnpHMJmtWLaBXxcA9z1I8fKn37HmYhXTDxn51yme2+9uq1gCOjOZuxssZOK9/rElHcTPDk00NtgNklhTAJuDIWN+HBAHa3HM7Qtgi53/RJcbdUNxto978QIDAQAB
+      KEYCLOAK_BROKER: http://localhost:8080/
+      KAFKA_ROLE: realm:Manager
+
+  worker:
+    image: marcado1/sadworker
+    depends_on:
+      - kafka
+    environment:
+      KAFKA_BROKER_SERVER: kafka:9092
+      KEYCLOAK_CLIENTID: service-app
   postgres:
       image: postgres
       volumes:
@@ -14,7 +55,7 @@ services:
         POSTGRES_USER: keycloak
         POSTGRES_PASSWORD: password
   keycloak:
-      image: quay.io/keycloak/keycloak:legacy
+      image: quay.io/keycloak/keycloak:20.0.3
       environment:
         DB_VENDOR: POSTGRES
         DB_ADDR: postgres
@@ -22,11 +63,12 @@ services:
         DB_USER: keycloak
         DB_SCHEMA: public
         DB_PASSWORD: password
-        KEYCLOAK_USER: marcado1
-        KEYCLOAK_PASSWORD: NaNaLover1290
+        KEYCLOAK_ADMIN: marcado1
+        KEYCLOAK_ADMIN_PASSWORD: NaNaLover1290
         # Uncomment the line below if you want to specify JDBC parameters. The parameter below is just an example, and it shouldn't be used in production without knowledge. It is highly recommended that you read the PostgreSQL JDBC driver documentation in order to use it.
         #JDBC_PARAMS: "ssl=true"
       ports:
         - 8080:8080
       depends_on:
         - postgres
+      command: start-dev

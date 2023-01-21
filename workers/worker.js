@@ -117,6 +117,7 @@ function DoJobs(QueMessage){
          result: stdout,
          status: "JobDone"
      }
+     console.log(stdout.toString().length)
      /*data = JSON.stringify(finishedJob, null, 2)
      fs.writeFileSync('../doneJobs/' + QueMessage.id + '.json' ,data, finished)*/
      writeUserDataToKafka({finishedJob})

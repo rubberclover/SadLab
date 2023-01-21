@@ -10,7 +10,7 @@ const keycloak = require('../config/keycloak-config.js').getKeycloak()
 const jwt_decode = require('jwt-decode')
 const shell = require('shelljs')
 
-router.post('/send-message',jsonParser,async (req, res) => {
+router.post('/send-message',keycloak.protect(process.env.KAFKA_ROLE),jsonParser,async (req, res) => {
     const {link, params, dependencies} = req.body
     var token = GetToken(req.headers.authorization)
     var nick = token.preferred_username
@@ -29,7 +29,7 @@ router.post('/send-message',jsonParser,async (req, res) => {
     res.send(message.id)
 })
 
-router.get('/get-status',async (req, res) => {
+router.get('/get-status',keycloak.protect(process.env.KAFKA_ROLE),async (req, res) => {
     res.send(GetWorks(req.query.id))
 })
 

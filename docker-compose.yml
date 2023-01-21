@@ -1,4 +1,8 @@
 version: '3'
+  
+volumes:
+  postgres_data:
+      driver: local
 services:
   zookeeper:
     image: wurstmeister/zookeeper
@@ -31,9 +35,9 @@ services:
       KAFKA_BROKER_SERVER: kafka:9092
       KEYCLOAK_CLIENTID: service-app
       KEYCLOAK_REALM: sadProject
-      KEYCLOAK_SECRET: zHn4WWnbYSywnEIpTFvd74OpPzsYp5w1
-      KEYCLOAK_BROKER: keycloak:8080
-      KAFKA_ROLE: 
+      KEYCLOAK_SECRET: GePNZViQZgIXIxrTKjBMEkTwoCwHaJ3H
+      KEYCLOAK_BROKER: http://keycloak:8080
+      KAFKA_ROLE: realm:Manager
 
   worker:
     image: marcado1/sadworker
@@ -42,3 +46,29 @@ services:
     environment:
       KAFKA_BROKER_SERVER: kafka:9092
       KEYCLOAK_CLIENTID: service-app
+  postgres:
+      image: postgres
+      volumes:
+        - postgres_data:/var/lib/postgresql/data
+      environment:
+        POSTGRES_DB: keycloak
+        POSTGRES_USER: keycloak
+        POSTGRES_PASSWORD: password
+  keycloak:
+      image: quay.io/keycloak/keycloak:20.0.3
+      environment:
+        DB_VENDOR: POSTGRES
+        DB_ADDR: postgres
+        DB_DATABASE: keycloak
+        DB_USER: keycloak
+        DB_SCHEMA: public
+        DB_PASSWORD: password
+        KEYCLOAK_ADMIN: marcado1
+        KEYCLOAK_ADMIN_PASSWORD: NaNaLover1290
+        # Uncomment the line below if you want to specify JDBC parameters. The parameter below is just an example, and it shouldn't be used in production without knowledge. It is highly recommended that you read the PostgreSQL JDBC driver documentation in order to use it.
+        #JDBC_PARAMS: "ssl=true"
+      ports:
+        - 8080:8080
+      depends_on:
+        - postgres
+      command: start-dev
