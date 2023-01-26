@@ -56,14 +56,14 @@ const ConsumeMessage = async () => {
            id: obj.finishedJob.id,
            nick: obj.finishedJob.nick,
            email: obj.finishedJob.email,
-           status: "JobDone"
+           status: obj.finishedJob.status
           }
           CheckArray(messageToSend)
           var messageToSend = {
             id: obj.finishedJob.id,
             time: obj.finishedJob.time,
             result: obj.finishedJob.result
-           }
+          }
           data = JSON.stringify(messageToSend, null, 2)
           fs.writeFileSync('./doneJobs/' + messageToSend.id + '.json' ,data, finished)
        }

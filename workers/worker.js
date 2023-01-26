@@ -7,9 +7,12 @@ const { finished } = require('stream');
 const shell = require('shelljs')
 const path = 'repos'
 const { exec } = require("child_process");
-const { dirname } = require('path');
+const { dirname, resolve } = require('path');
+const { rejects } = require('assert');
+let file = ""
 
 shell.exec('rm -rf /repos/*') 
+shell.cd(path)
 
 const writeUserDataToKafka = async (payload) => {
     await producer.connect()
@@ -46,15 +49,40 @@ const ConsumeMessage = async () => {
              value: message.value.toString()
           })
         var obj = JSON.parse(message.value.toString());
-        shell.cd(path)
+        
+      try{
+         await checkGitRepository(obj.message.link)
+         if(file.stderr != ''){
+            var finishedJob = {
+               id: obj.message.id,
+               nick: obj.message.nick,
+               email: obj.message.email,
+               result: ("El repositorio " + obj.message.link + " no existe"),
+               status: "Error"
+            }
+            writeUserDataToKafka({finishedJob})
+        }
+        else{
         var gitName = extractGitHubName(obj.message.link) 
         var gitName = gitName.toString().replace('.git','')
         if(fs.existsSync(shell.pwd().toString() + "/" + gitName) == false){
          shell.exec('git clone ' + obj.message.link)
-         console.log("Existo " + shell.ls(shell.ls(shell.pwd().toString())))  
         } 
         DoJobs(obj.message)
         //CheckArray(messageToSend)
+       }
+      }
+      catch(e){
+         console.log(e)
+         var finishedJob = {
+            id: obj.message.id,
+            nick: obj.message.nick,
+            email: obj.message.email,
+            result: e,
+            status: "Error"
+         }
+         writeUserDataToKafka({finishedJob})
+      }
        }
     })
 }
@@ -67,6 +95,10 @@ function extractGitHubName(url) {
    if (!match || !(match.groups?.owner && match.groups?.name)) return null
    return `${match.groups.name}`
  }
+
+async function checkGitRepository(gitLink){
+   file = shell.exec("git ls-remote -h " + gitLink)
+}
 
 function DoJobs(QueMessage){
    //Calculate time elapse
@@ -96,7 +128,8 @@ function DoJobs(QueMessage){
          var finishedJob = {
             id: QueMessage.id,
             time: timeTook,
-            result: error.message
+            result: error.message,
+            status: "Error"
          }
          /*data = JSON.stringify(finishedJob, null, 2)
          fs.writeFileSync('../doneJobs/' + QueMessage.id + '.json' ,data, finished)*/
@@ -107,6 +140,10 @@ function DoJobs(QueMessage){
           console.log(`stderr: ${stderr}`);
           return;
       }
+      dataResult = stdout.toString()
+      while (dataResult.length > 1000){
+         dataResult = dataResult.substring(1000)
+      }
       var end= Date.now();
       var timeTook=(end-begin)/1000+"secs";
       var finishedJob = {
@@ -114,10 +151,9 @@ function DoJobs(QueMessage){
          nick: QueMessage.nick,
          email: QueMessage.email,
          time: timeTook,
-         result: stdout,
+         result: dataResult,
          status: "JobDone"
      }
-     console.log(stdout.toString().length)
      /*data = JSON.stringify(finishedJob, null, 2)
      fs.writeFileSync('../doneJobs/' + QueMessage.id + '.json' ,data, finished)*/
      writeUserDataToKafka({finishedJob})

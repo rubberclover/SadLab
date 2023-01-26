@@ -35,7 +35,7 @@ router.get('/get-status',keycloak.protect(process.env.KAFKA_ROLE),async (req, re
 
 router.get('/get-result',keycloak.protect(process.env.KAFKA_ROLE) ,async (req, res) => {
     var Job = GetWorks(req.query.id)
-    if(Job.status == "JobDone"){
+    if(Job.status == "JobDone" || Job.status == "Error"){
         let data = fs.readFileSync("./doneJobs/" + req.query.id + ".json" )
         shell.cd("./doneJobs/")
         shell.exec('rm -rf ' + (req.query.id + ".json"))  

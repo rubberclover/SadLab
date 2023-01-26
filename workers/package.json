@@ -33,6 +33,8 @@
     "promise": "^8.3.0",
     "request": "^2.88.2",
     "shelljs": "^0.8.5",
+    "url-exist": "^3.0.1",
+    "url-exists": "^1.0.3",
     "uuid": "^9.0.0"
   }
 }
