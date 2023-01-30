@@ -80,6 +80,7 @@ const ConsumeMessage = async () => {
     })
 }*/
 
+//Metodo para actualizar el estado de los trabajos
 function CheckArray(message) {
    let data = fs.readFileSync('./Works.js')
    let Works = JSON.parse(data)

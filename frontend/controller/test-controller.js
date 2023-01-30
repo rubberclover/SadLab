@@ -10,6 +10,7 @@ const keycloak = require('../config/keycloak-config.js').getKeycloak()
 const jwt_decode = require('jwt-decode')
 const shell = require('shelljs')
 
+//Ruta para enviar un trabajo
 router.post('/send-message',keycloak.protect(process.env.KAFKA_ROLE),jsonParser,async (req, res) => {
     const {link, params, dependencies} = req.body
     var token = GetToken(req.headers.authorization)
@@ -29,10 +30,12 @@ router.post('/send-message',keycloak.protect(process.env.KAFKA_ROLE),jsonParser,
     res.send(message.id)
 })
 
+//Ruta para obtener el estado del trabajo
 router.get('/get-status',keycloak.protect(process.env.KAFKA_ROLE),async (req, res) => {
     res.send(GetWorks(req.query.id))
 })
 
+//Ruta para obtener el resultado del trabajo
 router.get('/get-result',keycloak.protect(process.env.KAFKA_ROLE) ,async (req, res) => {
     var Job = GetWorks(req.query.id)
     if(Job.status == "JobDone" || Job.status == "Error"){
@@ -48,6 +51,7 @@ router.get('/get-result',keycloak.protect(process.env.KAFKA_ROLE) ,async (req, r
     
 })
 
+//Ruta para obtener los trabajos por medio del token
 router.get('/get-own-jobs',keycloak.protect(process.env.KAFKA_ROLE) ,async (req, res) => {
     var token = GetToken(req.headers.authorization)
     var nick = token.preferred_username
@@ -56,6 +60,7 @@ router.get('/get-own-jobs',keycloak.protect(process.env.KAFKA_ROLE) ,async (req,
     res.send(result)
 })
 
+//Metodo que inserta los mensajes para poder ser recuperados
 function InsertMessage(message){
     let data = fs.readFileSync('Works.js')
     let Works = JSON.parse(data)
@@ -64,6 +69,7 @@ function InsertMessage(message){
     fs.writeFileSync('Works.js',data, finished)
 }
 
+//Metodo para obtener un trabajo por medio de un id
 function GetWorks(idConsult){
     let data = fs.readFileSync('Works.js')
     let Works = JSON.parse(data)
@@ -72,6 +78,7 @@ function GetWorks(idConsult){
     })
 }
 
+//Metodo para obtener todos los trabajos por medio del nick y el email del usuario
 function GetAllWorks(nick,email){
     let data = fs.readFileSync('Works.js')
     let Works = JSON.parse(data)
@@ -80,6 +87,7 @@ function GetAllWorks(nick,email){
     })
 }
 
+//Metodo para borrar trabajos en versiones anteriores del proyecto
 function DeleteWorks(idConsult){
     let data = fs.readFileSync('Works.js')
     let Works = JSON.parse(data)
@@ -93,6 +101,7 @@ function DeleteWorks(idConsult){
     fs.writeFileSync('Works.js',data, finished)
 }
 
+//Metodo para obtener el token del header
 function GetToken(auth){
     var aux = auth.toString().split(" ")
     var decodedHeader = jwt_decode(aux[1], { payload: true });

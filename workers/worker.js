@@ -87,6 +87,7 @@ const ConsumeMessage = async () => {
     })
 }
 
+//Metodo que obtiene el nombre del GitHub dada la url
 function extractGitHubName(url) {
    if (!url) return null
    const match = url.match(
@@ -96,10 +97,12 @@ function extractGitHubName(url) {
    return `${match.groups.name}`
  }
 
+ //Metodo para comprobar si el repositorio existe
 async function checkGitRepository(gitLink){
    file = shell.exec("git ls-remote -h " + gitLink)
 }
 
+ //Metodo que ejecuta el trabajo dadas las ordenes del mensaje
 function DoJobs(QueMessage){
    //Calculate time elapse
    var begin=Date.now();

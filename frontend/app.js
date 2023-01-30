@@ -22,8 +22,10 @@ app.use(session({
   store: memoryStore
 }));
 
+//Carga la configuración de Keycloak
 const keycloak = require('./config/keycloak-config.js').initKeycloak(memoryStore)
 
+//Elimina todos los datos de sesiones anteriores
 data = JSON.stringify([], null, 2)
 fs.writeFileSync('Works.js',data, finished)
 //shell.exec('rm -rf ./repos/*') 
